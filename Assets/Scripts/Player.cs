@@ -34,6 +34,24 @@ public class Player : MonoBehaviour
         rb.velocity = playerVelocity * speed * Time.deltaTime;
     }
 
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Health")
+        {
+            // if the object we triggered with has a Health tag then increase the player health and destroy the other object.
+            IncreasePlayerHealth();
+            Destroy(other.gameObject);
+        }
+        if (other.tag == "Speed")
+        {
+            // if the object we triggered with has a Speed tag then increase the player Speed and destroy the other object.
+            IncreasePlayerSpeed();
+            Destroy(other.gameObject);
+        }
+    }
+
+
     // Increase the value of the player health.
     public void IncreasePlayerHealth() { health += 10; }
 
