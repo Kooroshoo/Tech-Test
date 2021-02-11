@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     // Move the player based on the player input.
     void PlayerMovement()
     {
+        // get the input from the player. the value is between -1 and 1.
         float xMov = Input.GetAxisRaw("Horizontal");
         float zMov = Input.GetAxisRaw("Vertical");
 
@@ -32,4 +33,16 @@ public class Player : MonoBehaviour
         Vector3 playerVelocity = Vector3.ClampMagnitude(new Vector3(xMov, 0, zMov), 1);
         rb.velocity = playerVelocity * speed * Time.deltaTime;
     }
+
+    // Increase the value of the player health.
+    public void IncreasePlayerHealth() { health += 10; }
+
+    // get the value of the player health.
+    public int GetPlayerHealth() { return health; }
+
+    // Increase the value of the player speed.
+    public void IncreasePlayerSpeed() { speed += 100; }
+
+    // get the value of the player health.
+    public int GetPlayerSpeed() { return speed; }
 }
