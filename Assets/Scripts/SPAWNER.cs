@@ -42,12 +42,11 @@ public class SPAWNER : MonoBehaviour
         {
             RunAway();
             DropItems();
-
-            cubeRenderer.material.SetColor("_Color", Color.blue);
+            ChangeColorToDarkBlue();
         }
         else
         {
-            cubeRenderer.material.SetColor("_Color", Color.cyan);
+            ChangeColorToLightBlue();
         }
 
     }
@@ -72,8 +71,6 @@ public class SPAWNER : MonoBehaviour
             {
                 // move away from the player
                 agent.SetDestination(newPos);
-
-                Debug.Log("A");
             }
         }
         else
@@ -82,13 +79,11 @@ public class SPAWNER : MonoBehaviour
             {
                 // steer the SPAWNER towards the right to prevent it getting stuck in the corners.
                 agent.SetDestination(transform.right);
-
-                Debug.Log("B");
             }
         }
     }
 
-    // drop random items
+    // Drop random items
     void DropItems()
     {
         int randomNumberPicker = Random.Range(0, itemsToDrop.Length);
@@ -104,6 +99,16 @@ public class SPAWNER : MonoBehaviour
     }
 
     void ResetCanDropItems() { canDropItems = true; }
+
+    void ChangeColorToDarkBlue()
+    {
+        if (cubeRenderer.material.color != Color.blue) cubeRenderer.material.SetColor("_Color", Color.blue);
+    }
+
+    void ChangeColorToLightBlue()
+    {
+        if (cubeRenderer.material.color != Color.cyan) cubeRenderer.material.SetColor("_Color", Color.cyan);
+    }
 
 
 

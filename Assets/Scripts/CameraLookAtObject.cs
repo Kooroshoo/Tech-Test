@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraLootAtObject : MonoBehaviour
+public class CameraLookAtObject : MonoBehaviour
 {
     [SerializeField] GameObject obj;
     [SerializeField] int cameraHeight = 15;
