@@ -7,6 +7,8 @@ public class SPAWNER : MonoBehaviour
 {
     [SerializeField] GameObject player;
     [SerializeField] float avoidDistance = 10.0f;
+    [SerializeField] float speed = 10.0f;
+    [SerializeField] float rotationSpeed = 120.0f;
     [SerializeField] GameObject[] itemsToDrop;
 
     bool canDropItems = true;
@@ -20,7 +22,11 @@ public class SPAWNER : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
 
         //set canDropItems to True every two seconds
-        InvokeRepeating("ResetCanDropItems", 1f, 2f);
+        InvokeRepeating("ResetCanDropItems", 2f, 2f);
+
+        // set the NavMesh Agent attributes at the start
+        agent.speed = speed;
+        agent.angularSpeed = rotationSpeed;
     }
 
     // Update is called once per frame
