@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] int health = 100;
     [SerializeField] int speed = 500;
+    [SerializeField] int rotationSpeed = 5;
 
     Rigidbody rb;
 
@@ -28,6 +29,13 @@ public class Player : MonoBehaviour
         // get the input from the player. the value is between -1 and 1.
         float xMov = Input.GetAxisRaw("Horizontal");
         float zMov = Input.GetAxisRaw("Vertical");
+
+        // Rotate Towards the players movement
+        Vector3 direction = new Vector3(xMov, 0, zMov);
+        if (direction != Vector3.zero)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotationSpeed * Time.deltaTime);
+        }
 
         // ClampMagnitude will prevent the vector from being longer than the length specified, so that it prevents the object moving faster diagonally.
         Vector3 playerVelocity = Vector3.ClampMagnitude(new Vector3(xMov, 0, zMov), 1);
