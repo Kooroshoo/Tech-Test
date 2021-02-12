@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
     public int GetPlayerHealth() { return health; }
 
     // Increase the value of the player speed.
-    public void IncreasePlayerSpeed() { speed += 100; }
+    public void IncreasePlayerSpeed() { speed += 10; }
 
     // get the value of the player health.
     public int GetPlayerSpeed() { return speed; }

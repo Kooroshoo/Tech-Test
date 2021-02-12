@@ -7,6 +7,9 @@ public class SPAWNER : MonoBehaviour
 {
     [SerializeField] GameObject player;
     [SerializeField] float avoidDistance = 10.0f;
+    [SerializeField] GameObject[] itemsToDrop;
+
+    bool canDropItems = true;
 
     NavMeshAgent agent;
 
@@ -15,6 +18,9 @@ public class SPAWNER : MonoBehaviour
     {
         // assign the navMesh at the start
         agent = GetComponent<NavMeshAgent>();
+
+        //set canDropItems to True every two seconds
+        InvokeRepeating("ResetCanDropItems", 1f, 2f);
     }
 
     // Update is called once per frame
@@ -29,7 +35,6 @@ public class SPAWNER : MonoBehaviour
             DropItems();
         }
 
-        
     }
 
     // Move away from the player
@@ -47,9 +52,19 @@ public class SPAWNER : MonoBehaviour
     // drop random items
     void DropItems()
     {
-
+        int randomNumberPicker = Random.Range(0, itemsToDrop.Length);
+        if (itemsToDrop[randomNumberPicker] && canDropItems)
+        {
+            Instantiate(itemsToDrop[randomNumberPicker], transform.position, Quaternion.identity);
+            canDropItems = false;
+        }
+        else if (!itemsToDrop[randomNumberPicker])
+        {
+            Debug.LogError("The array itemsToDrop[" + randomNumberPicker + "] has not been assigned any values");
+        }
     }
 
+    void ResetCanDropItems() { canDropItems = true; }
 
 
 
