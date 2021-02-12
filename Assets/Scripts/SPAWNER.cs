@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class SPAWNER : MonoBehaviour
 {
     [SerializeField] GameObject player;
-    [SerializeField] float avoidDistance = 10.0f;
+    [SerializeField] float avoidDistance = 8.0f;
     [SerializeField] float speed = 10.0f;
     [SerializeField] float rotationSpeed = 120.0f;
     [SerializeField] GameObject[] itemsToDrop;
@@ -15,18 +15,21 @@ public class SPAWNER : MonoBehaviour
 
     NavMeshAgent agent;
 
+    Renderer cubeRenderer;
+
     // Start is called before the first frame update
     void Start()
     {
-        // assign the navMesh at the start
+        // assign the navMesh Agent at the start and its attributes
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = speed;
+        agent.angularSpeed = rotationSpeed;
 
         //set canDropItems to True every two seconds
         InvokeRepeating("ResetCanDropItems", 2f, 2f);
 
-        // set the NavMesh Agent attributes at the start
-        agent.speed = speed;
-        agent.angularSpeed = rotationSpeed;
+        // //Get the Renderer component from the cube so that we can change its colors
+        cubeRenderer = GetComponent<Renderer>();
     }
 
     // Update is called once per frame
@@ -39,6 +42,12 @@ public class SPAWNER : MonoBehaviour
         {
             RunAway();
             DropItems();
+
+            cubeRenderer.material.SetColor("_Color", Color.blue);
+        }
+        else
+        {
+            cubeRenderer.material.SetColor("_Color", Color.cyan);
         }
 
     }
@@ -49,10 +58,34 @@ public class SPAWNER : MonoBehaviour
         // player to the SPAWNER vector
         Vector3 dirToSPAWNER = transform.position - player.transform.position;
 
-        // move away from the player and also steer the SPAWNER towards the right to prevent it getting stuck in the corners.
-        Vector3 newPos = transform.position + dirToSPAWNER + transform.right ;
-        
-        agent.SetDestination(newPos);
+        // vector that moves away from the player.
+        Vector3 newPos = transform.position + dirToSPAWNER/2;
+
+        // calculate the path between the position and the newPos
+        NavMeshPath path = new NavMeshPath();
+        agent.CalculatePath(newPos, path);
+
+        // check if the path to the newPos is valid
+        if (path.status != NavMeshPathStatus.PathInvalid)
+        {
+            if (agent.remainingDistance < 2 )
+            {
+                // move away from the player
+                agent.SetDestination(newPos);
+
+                Debug.Log("A");
+            }
+        }
+        else
+        {
+            if (agent.remainingDistance < 2)
+            {
+                // steer the SPAWNER towards the right to prevent it getting stuck in the corners.
+                agent.SetDestination(transform.right);
+
+                Debug.Log("B");
+            }
+        }
     }
 
     // drop random items

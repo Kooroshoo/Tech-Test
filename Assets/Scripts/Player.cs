@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] int health = 100;
-    [SerializeField] int speed = 500;
+    [SerializeField] int speed = 300;
     [SerializeField] int rotationSpeed = 5;
 
     Rigidbody rb;
